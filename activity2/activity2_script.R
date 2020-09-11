@@ -192,12 +192,12 @@ hist(annualPRCPsum$PRCP[annualPRCPsum$NAME == 3],
 
 
 #probability of year with 700mm or less precipitation in Aberdeen
-pnorm(7,
+pnorm(70,
       mean(annualPRCPsum$PRCP[annualPRCPsum$NAME == 1],na.rm=TRUE),
       sd(annualPRCPsum$PRCP[annualPRCPsum$NAME == 1],na.rm=TRUE))
 
 #probability of year with 700mm or less precipitation in Mandan
-pnorm(7,
+pnorm(70,
       mean(annualPRCPsum$PRCP[annualPRCPsum$NAME == 3],na.rm=TRUE),
       sd(annualPRCPsum$PRCP[annualPRCPsum$NAME == 3],na.rm=TRUE))
 
