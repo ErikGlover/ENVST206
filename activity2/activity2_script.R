@@ -41,12 +41,21 @@ str(datW)
 
 datW$NAME <- as.factor(datW$NAME)
 
+#example of a character vector
+y = c("a", "b", "c", "d", "e")
+length(y)
 
+#example of numerical vector
+snowinches <-- c(1.3, 4.2, 6.7, 3.5, 4.6)
+snowinches/2
 
+#example of integer vector
+cows <-- c(2, 4, 5, 8, 10)
+cows*2
 
-
-
-
+#example of a factor vector
+v <- gl(3, 2, labels = c("red", "blue","green", "yellow", "purple"))
+print(v)
 
 #find out all unique site names
 levels(datW$NAME)
@@ -144,13 +153,53 @@ pnorm(18.51026,
 #histogram of daily precipitation 
 hist(datW$PRCP[datW$siteN == 1],
      freq=FALSE, 
-     main = paste(levels(datW$NAME)[1]),
+     main = paste(levels(datW$NAME)[3]),
      xlab = "Daily precipitation (cm)", 
      ylab="Relative frequency",
      col="grey75",
      border="white",)
     
+#range of data
+range(datW$PRCP,na.rm=TRUE)
 
-help(hist)
+#total precipitation by site and year 
+x <- datW$PRCP
+aggregate(x = datW$PRCP, by = list(datW$siteN, datW$year), FUN=sum, na.rm=TRUE)
+
+#assign the aggregate a new variable
+annualPRCPsum <- aggregate(x = datW$PRCP, by = list(datW$siteN, datW$year), FUN=sum, na.rm=TRUE)
+
+
+colnames(annualPRCPsum) <- c("NAME", "Year","PRCP")
+
+#histogram of annual precipitation in Aberdeen
+hist(annualPRCPsum$PRCP[annualPRCPsum$NAME == 1],
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[1]),
+     xlab = "Total annual precipitation (cm)", 
+     ylab="Relative frequency",
+     col="grey75",
+     border="white")
+
+#histogram of annual precipitation in Mandan
+hist(annualPRCPsum$PRCP[annualPRCPsum$NAME == 3],
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[3]),
+     xlab = "Total annual precipitation (cm)", 
+     ylab="Relative frequency",
+     col="grey75",
+     border="white")
+
+
+#probability of year with 700mm or less precipitation in Aberdeen
+pnorm(7,
+      mean(annualPRCPsum$PRCP[annualPRCPsum$NAME == 1],na.rm=TRUE),
+      sd(annualPRCPsum$PRCP[annualPRCPsum$NAME == 1],na.rm=TRUE))
+
+#probability of year with 700mm or less precipitation in Mandan
+pnorm(7,
+      mean(annualPRCPsum$PRCP[annualPRCPsum$NAME == 3],na.rm=TRUE),
+      sd(annualPRCPsum$PRCP[annualPRCPsum$NAME == 3],na.rm=TRUE))
+
 
 
