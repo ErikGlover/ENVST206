@@ -136,11 +136,21 @@ qnorm(0.95,
       mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
       sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
 
+#pnorm if climate change increases temps by 4
+pnorm(18.51026,
+      mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE)+4,
+      sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
 
+#histogram of daily precipitation 
+hist(datW$PRCP[datW$siteN == 1],
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[1]),
+     xlab = "Daily precipitation (cm)", 
+     ylab="Relative frequency",
+     col="grey75",
+     border="white",)
+    
 
-
-
-
-
+help(hist)
 
 
