@@ -153,14 +153,17 @@ ggplot(data = pr,
     geom_col(fill="royalblue3")+
     theme_classic()+
     labs(x="year", y="Daily precipitation (mm)")  
-  
+
   #new dataframe for Aberdeen, Wa from 2000-2019
   datA <- datW[datW$NAME == nameS[1] & datW$year >= 2000,]
-  tm <- datW[datW$TMIN]
+  abmin <- datA[datA$TMIN, datA$DATE,]
   
+  datA$DATE <- as.Date(datA$DATE,"%Y-%m-%d")
+  #
   ggplot(data=datA, aes(x=DATE, y=TMIN))+
     geom_col(fill="royalblue3")+
     theme_classic()+
-    labs(x="year", y="Daily precipitation (mm)")
+    labs(x="year", y="Daily minimum temperatures (C)")+
+    ggtitle("Daily minimum temperatures in Aberdeen WA")
   
   
