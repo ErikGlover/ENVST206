@@ -74,7 +74,9 @@ plot(nd$year, nd$`mean annual temp`,
      ylab = "Annual mean maximum temperature (C)",
      xlab = "Year", 
      yaxt = "n",
-     ylim =c(0, 20))
+     ylim =c(0, 20),
+     main =("Annual mean maximum temperature in Mandan North Dakota vs Morrisville New York"),
+     cex.main= 1)
 #add y axis
 axis(2, seq(0,50, by=5), las=2 )
 #add ny
@@ -166,4 +168,12 @@ ggplot(data = pr,
     labs(x="year", y="Daily minimum temperatures (C)")+
     ggtitle("Daily minimum temperatures in Aberdeen WA")
   
+  
+  
+  ggplot(data = datA, aes(x=as.factor(year), y=TMIN))+ 
+    geom_violin(fill=rgb(0.933,0.953,0.98))+ 
+    geom_boxplot(width=0.2,size=0.25, fill="grey90")+ 
+    theme_classic()+
+    labs(x="year", y="Daily minimum temperatures (C)")+
+    ggtitle("Daily minimum temperatures in Aberdeen WA")
   
