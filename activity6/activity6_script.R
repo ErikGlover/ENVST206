@@ -78,15 +78,15 @@ plot(boulder66, main = "Boulder Glacier in 1966-2015", col="slategray")
 
 boulder15 <- g2015[g2015@data$GLACNAME == "Boulder Glacier"]
 plot(boulder15, add=TRUE, col="blue")
-legend("bottomleft", c("Boulder 1966", "Boulder 2015"), col=c("slategray", "blue"), fill=("slategray"), bty="n")
+legend("bottomleft", c("Boulder 1966", "Boulder 2015"), fill = c("slategray", "blue"), bty="n")
 
 legend("bottomleft", c("Boulder 1966", "Boulder 2015"), col=fill, bty="n")
 
 #Pumpelly
 pumpelly66 <- g1966[g1966@data$GLACNAME == "Pumpelly Glacier",]
-plot(boulder66, main = "Pumpelly Glacier in 1966-2015", col="slategray")
+plot(pumpelly66, main = "Pumpelly Glacier in 1966-2015", col="slategray")
 
 pumpelly15 <- g2015[g2015@data$GLACNAME == "Pumpelly Glacier",]
 plot(pumpelly15, add=TRUE, col="blue")
-legend("bottomleft", c("Pumpelly 1966", "Pumpelly 2015"), col=c("slategray", "blue"), fill=("slategray"), bty="n")
+legend("topleft", c("Pumpelly 1966", "Pumpelly 2015"), fill=c("slategray", "blue"), bty="n")
 
