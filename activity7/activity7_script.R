@@ -1,6 +1,14 @@
 #activity7
 library(lubridate)
-
+library(ggplot2)
+#package for vector data
+library(sp)
+#package for reading in spatial data
+library(rgdal)
+#data manangement package
+library(dplyr)
+library(raster)
+library(rgeos)
 
 datD <- read.csv("/Users/erikglover/Documents/Environmental Data/dm_export_19601015_20201023 copy.csv")
 
@@ -17,6 +25,10 @@ maxS <- aggregate(datD$D1, by=list(datD$year), FUN="max")
 
 colnames(maxS) <- c("year","maxD1")
 
+#Time series plot
+ggplot(data=datD,aes(x=date, y=D1))+geom_path()+ggtitle("Moderate drought in New York State")+theme(plot.title = element_text(hjust = 0.5))+ylab("% of state in moderate drought")
+
+#Summary statistic plot
 plot(maxS$year, maxS$maxD1, main="New York Max % in Moderate Drought per Year", xlab="Year", ylab="D1 Moderate Drought")
 
 #checking residuals
@@ -31,17 +43,16 @@ qqline(maxS.res)
 shapiro.test(maxS.res)
 #p-value=0.003277 so we reject that the data is normally distributed
 
-library(ggplot2)
 
-ggplot(data=datD,aes(x=date, y=D1))+geom_path()+ggtitle("Moderate drought in New York State")+theme(plot.title = element_text(hjust = 0.5))+ylab("% of state in moderate drought")
-
-
-
-#New York D2
+###New York D2
 maxSD2 <- aggregate(datD$D2, by=list(datD$year), FUN="max")
 
 colnames(maxSD2) <- c("year","maxD2")
 
+#Time series plot
+ggplot(data=datD,aes(x=date, y=D2))+geom_path()+ggtitle("Severe drought in New York State")+theme(plot.title = element_text(hjust = 0.5))+ylab("% of state in severe drought")
+
+#Summary Statistic plot
 plot(maxSD2$year, maxSD2$maxD2, main="New York Max % in Severe Drought per Year", xlab="Year", ylab="D2 Severe Drought")
 
 #checking residuals
@@ -74,9 +85,11 @@ maxMAS <- aggregate(datMAD$D1, by=list(datMAD$year), FUN="max")
 
 colnames(maxMAS) <- c("year","maxD1")
 
-plot(maxMAS$year, maxMAS$maxD1, main="Massachusetts Max % in Moderate Drought per Year", xlab="Year", ylab="D1 Moderate Drought")
-
+#Time series plot
 ggplot(data=datMAD,aes(x=date, y=D1))+geom_path()+ggtitle("Moderate drought in Massachusetts")+ylab("% of state in moderate drought")
+
+#Summary statistic plot
+plot(maxMAS$year, maxMAS$maxD1, main="Massachusetts Max % in Moderate Drought per Year", xlab="Year", ylab="D1 Moderate Drought")
 
 
 #checking residuals
@@ -90,17 +103,26 @@ qqline(maxMAS.res)
 #Shapiro-Wilk normality test
 shapiro.test(maxMAS.res)
 #p-value = 0.0985 so we cannot reject that the data is normally distributed
+
 #make residual plot
-plot(maxMAS$maxD1, maxMAS.res, 
-     xlab = "Max temp per year", 
-     ylab = "standardized residual")
+plot(maxMAS$year, maxMAS.res, 
+     xlab = "Max % in D1 per year", 
+     ylab = "standardized residual", main="Residual Plot")
+
 #add a horizontal line at zero
 abline(h=0)
 
+#summary statistic plot
+plot(maxMAS$year, maxMAS$maxD1, main="Massachusetts Max % in Moderate Drought per Year", xlab="Year", ylab="D1 Moderate Drought")
+#add linear regression line
+abline(maxMAS.mod, lwd=2)
 
 #Regression table
 summary(maxMAS.mod)
 
+#Correlation coefficient
+cor(maxMAS$year, maxMAS$maxD1)
+#0.3028076
 
 
 ####Massachusetts D2
@@ -108,10 +130,11 @@ maxMASD2 <- aggregate(datMAD$D2, by=list(datMAD$year), FUN="max")
 
 colnames(maxMASD2) <- c("year","maxD2")
 
-plot(maxMASD2$year, maxMASD2$maxD2, main="Massachusetts Max % in Severe Drought per Year", xlab="Year", ylab="D2 Severe Drought")
-
+#Time series plot
 ggplot(data=datMAD,aes(x=date, y=D2))+geom_path()+ggtitle("Severe drought in Massachusetts")+ylab("% of state in severe drought")
 
+#Summary statistic plot
+plot(maxMASD2$year, maxMASD2$maxD2, main="Massachusetts Max % in Severe Drought per Year", xlab="Year", ylab="D2 Severe Drought")
 
 #checking residuals
 maxMASD2.mod <- lm(maxMASD2$maxD2 ~ maxMASD2$year)
@@ -129,16 +152,6 @@ summary(maxMASD2.mod)
 
 
 ###maps###
-
-#package for vector data
-library(sp)
-#package for reading in spatial data
-library(rgdal)
-#data manangement package
-library(dplyr)
-
-library(raster)
-library(rgeos)
 
 maps <- readOGR("/Users/erikglover/Documents/Environmental Data/USDM_20161018_M (1)/USDM_20161018.shp")
 
